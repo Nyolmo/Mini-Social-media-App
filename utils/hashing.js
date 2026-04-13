@@ -5,7 +5,7 @@ export const doHash = async (value, saltValue)=>{
     return result;
 };
 
-export const compareHash = async(value, hashedValue)=>{
+export const compareHashValidation = async(value, hashedValue)=>{
     const result = await bcrypt.compare(value, hashedValue);
     return result;
 };
