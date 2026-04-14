@@ -91,3 +91,29 @@ export const addComment = async(req, res)=>{
         }); 
     }
 };
+
+
+export const getAllPosts = async (req, res)=> {
+    try {
+
+        const posts = await Post.find()
+            .sort({createdAt: -1})
+            .populate('user', 'username')
+            .populate('comments.user', 'username');
+
+        res.status(200).json({
+            success: true,
+            message: "Here are all posts",
+            posts
+        });
+        
+    } catch (error) {
+        console.log("Error fetching posts:", error.message);
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: error.message
+        });
+        
+    }
+};
