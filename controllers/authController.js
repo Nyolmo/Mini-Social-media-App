@@ -121,4 +121,4 @@ export const signOut = async(req, res)=>{
             success: true,
             message: "Logged out successfully"
         });
-}
+};
