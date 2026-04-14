@@ -4,10 +4,10 @@ import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
 export const signUp = async (req, res)=>{
-    const { email, password}=req.body;
+    const { username ,email, password}=req.body;
     try {
         const { error } = signUpSchema.validate({
-            email, password
+            username,email, password
         });
 
         if(error){
@@ -28,7 +28,7 @@ export const signUp = async (req, res)=>{
 
         const hashedPassword = await doHash(password, 12);
         const newUser = new User({
-            email, password: hashedPassword
+            username, email, password: hashedPassword
         });
 
         const result = await newUser.save();
@@ -55,9 +55,9 @@ export const signUp = async (req, res)=>{
 };
 
 export const signIn = async(req, res)=>{
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
     try {
-        const { error } = signInSchema.validate({email, password});
+        const { error } = signInSchema.validate({username, email, password});
         if(error){
             return res.status(401).json({
                 success: false,

@@ -1,6 +1,11 @@
 import Joi from "joi";
 
 export const signUpSchema = Joi.object({
+    username: Joi.string().min(3).required().messages({
+        'string.min': 'Username must be at least 3 characters long',
+        'string.empty': 'Username cannot be empty',
+        'any.required': 'Username is required'
+    }),
     email: Joi.string()
         .min(6)
         .max(60)
@@ -17,6 +22,11 @@ export const signUpSchema = Joi.object({
 });
 
 export const signInSchema = Joi.object({
+    username: Joi.string().min(3).required().messages({
+        'string.min': 'Username must be at least 3 characters long',
+        'string.empty': 'Username cannot be empty',
+        'any.required': 'Username is required'
+    }),
     email: Joi.string()
         .min(6)
         .max(60)
