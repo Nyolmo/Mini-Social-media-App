@@ -23,6 +23,20 @@ const userSchema = mongoose.Schema({
         trim:true,
         select:false,
     },
+    followers: [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default:[]
+        }
+    ],
+    following: [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User',
+            default:[]
+        }
+    ]
 },
     {
         timestamps: true
