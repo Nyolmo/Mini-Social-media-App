@@ -32,3 +32,30 @@ export const createPost = async(req, res)=>{
     }
 };
 
+
+export const toggleLike =  async(req, res)=> {
+    try {
+        const post = await Post.findById(req.params.id);
+        if(!post){
+            return res.status(404).json({
+                success: false,
+                message: "Post not found"
+            });
+        }
+
+        if(post.likes.includes(req.user)){
+            post.likes.pull(req.user);
+        } else{
+            post.likes.push(req.user);
+        };
+
+        await post.save();
+        return res.status(200).json(post.likes);
+    } catch (error) {
+        console.log("Error liking the post:", error.message);
+        return res.status(500).json({
+            message:"Server error",
+            error: error.message
+        });        
+    }
+};
