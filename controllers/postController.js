@@ -1,3 +1,4 @@
+import { CURSOR_FLAGS } from "mongodb";
 import { Post } from "../models/postModel.js";
 
 export const createPost = async(req, res)=>{
@@ -57,5 +58,36 @@ export const toggleLike =  async(req, res)=> {
             message:"Server error",
             error: error.message
         });        
+    }
+};
+
+export const addComment = async(req, res)=>{
+    try {
+        const { text } = req.body;
+        const post = await Post.findById(req.params.id);
+        if(!post){
+            return res.status(404).json({
+                success: false,
+                message: "Post not found"
+            });
+        }
+
+        const newComment = ({
+            user: req.user,
+            text
+        });
+
+        post.comments.push(newComment);
+        await post.save();
+
+        return res.status(201).json(post.comments);
+        
+    } catch (error) {
+        console.log("Error creating post:", error.message);
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: error.message
+        }); 
     }
 };
